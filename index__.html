@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>조선의 소식 – 선전 포털</title>
+
+    <!-- Eulyoo1945 웹폰트 (을유 1945) -->
+    <style>
+      @font-face {
+        font-family: 'Eulyoo1945';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2107@1.1/Eulyoo1945-Regular.woff')
+          format('woff');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Eulyoo1945';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2107@1.1/Eulyoo1945-SemiBold.woff')
+          format('woff');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
+
+    <style>
+      :root {
+        --accent: #e53f3f; /* 붉은 메인 강조(혁명/피/투쟁) */
+        --revolution: #9c0d0d; /* 더 어두운 붉은 톤(타이틀용) */
+        --gold: #c89b00; /* 아이콘/엠블럼/구분선 */
+        --base: #f7f7f5; /* 본문 배경 */
+        --ink: #191919;
+        --muted: #6b7280;
+        --card: #ffffff;
+        --line: #d9b64c33; /* 골드 라인 투명도 */
+        --radius: 16px;
+        --max: 1200px;
+        --gap: 20px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--base);
+        color: var(--ink);
+        font-family: Pretendard, 'Noto Sans KR', system-ui, -apple-system,
+          Segoe UI, Roboto, Arial, sans-serif;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        position: relative;
+      }
+      /* 꼬릿한 질감(노이즈+비네팅) */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background: radial-gradient(
+            110% 70% at 50% 120%,
+            rgba(0, 0, 0, 0.22),
+            transparent 55%
+          ),
+          radial-gradient(
+            120% 80% at -10% -20%,
+            rgba(0, 0, 0, 0.15),
+            transparent 50%
+          ),
+          radial-gradient(
+            120% 80% at 110% -20%,
+            rgba(0, 0, 0, 0.15),
+            transparent 50%
+          ),
+          url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.05"/></svg>');
+        mix-blend-mode: multiply;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+      }
+      .img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+
+      /* 헤더 */
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.86);
+        backdrop-filter: saturate(120%) blur(6px);
+        border-bottom: 1px solid var(--line);
+        box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.05);
+      }
+      .nav {
+        max-width: var(--max);
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px 16px;
+        position: relative;
+      }
+      .brand {
+        font-family: 'Eulyoo1945', serif;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        font-size: 20px;
+        color: var(--revolution);
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+      }
+      .nav-links {
+        display: flex;
+        gap: 14px;
+        margin-left: 8px;
+      }
+      .nav a {
+        padding: 8px 10px;
+        border-radius: 10px;
+      }
+      .nav a:hover {
+        background: #0000000a;
+      }
+      .spacer {
+        flex: 1;
+      }
+      .search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--card);
+        border: 1px solid var(--gold);
+        box-shadow: inset 0 0 0 1px #ffffff0d, 0 1px 0 #00000012;
+        padding: 8px 12px;
+        border-radius: 12px;
+        min-width: 220px;
+        color: #8a6c00;
+      }
+      .search input {
+        border: 0;
+        outline: 0;
+        background: transparent;
+        width: 100%;
+        font-size: 14px;
+        color: var(--ink);
+      }
+
+      /* 메인 레이아웃 */
+      .wrap {
+        max-width: var(--max);
+        margin: 28px auto;
+        padding: 0 16px;
+        position: relative;
+        z-index: 1;
+      }
+      .grid {
+        display: grid;
+        gap: var(--gap);
+        grid-template-columns: 240px 1fr 320px;
+      }
+
+      /* 좌측 사이드바 */
+      .sidebar {
+        background: var(--card);
+        border: 1.5px solid var(--gold);
+        border-radius: var(--radius);
+        padding: 18px;
+        height: max-content;
+        position: sticky;
+        top: 86px;
+        box-shadow: inset 0 0 0 2px #ffffff, 0 6px 18px rgba(0, 0, 0, 0.08);
+      }
+      .author {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #d9d9d9;
+        outline: 2px solid var(--gold);
+      }
+      .cat-title {
+        font-family: 'Eulyoo1945', serif;
+        font-weight: 700;
+        color: #8a6c00;
+        margin: 14px 0 10px;
+      }
+      .cat-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 6px;
+      }
+      .cat-list a {
+        display: block;
+        padding: 8px 10px;
+        border-radius: 10px;
+        color: var(--muted);
+        border: 1px dashed #c5a54180;
+      }
+      .cat-list a.is-active,
+      .cat-list a:hover {
+        color: var(--ink);
+        background: #fff7e680;
+        border-color: var(--gold);
+      }
+
+      /* 메인 기사 */
+      .main {
+        display: grid;
+        gap: var(--gap);
+      }
+      .section-title {
+        font-family: 'Eulyoo1945', serif;
+        font-weight: 700;
+        font-size: 22px;
+        margin: 0;
+        color: #8a6c00;
+      }
+      .article {
+        background: linear-gradient(#ffffff, #fffdf6);
+        border: 2px solid var(--gold);
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+        position: relative;
+      }
+      .article::after {
+        /* 종이 질감 가벼운 오버레이 */
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image: linear-gradient(
+          0deg,
+          transparent 0 96%,
+          rgba(200, 155, 0, 0.18) 96% 100%
+        );
+        background-size: 100% 36px;
+        mix-blend-mode: multiply;
+        opacity: 0.06;
+      }
+      .hero-media {
+        position: relative;
+        background: #000;
+      }
+      .secret-pin {
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.4);
+        opacity: 0.88;
+        cursor: pointer;
+        transition: transform 0.15s ease, opacity 0.15s ease;
+      }
+      .secret-pin:hover {
+        transform: scale(1.15);
+        opacity: 1;
+      }
+
+      .article-body {
+        padding: 22px 18px 20px;
+      }
+      .kicker {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 800;
+        color: #fff;
+        background: var(--accent);
+        padding: 4px 8px;
+        border-radius: 999px;
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12);
+      }
+      .headline {
+        margin: 10px 0 8px;
+        font-family: 'Eulyoo1945', serif;
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 1.22;
+        color: var(--revolution);
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+        letter-spacing: 0.2px;
+      }
+      .byline {
+        font-size: 13px;
+        color: #826a1a;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .meta {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        margin: 10px 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .lead {
+        margin-top: 6px;
+        color: #2a2a2a;
+      }
+      .divider {
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          transparent
+        );
+        margin: 16px 0;
+      }
+      .para {
+        margin: 12px 0;
+      }
+
+      /* 우측 관련뉴스 */
+      .related {
+        display: grid;
+        gap: var(--gap);
+        height: max-content;
+        position: sticky;
+        top: 86px;
+      }
+      .related .article {
+        border-width: 1.5px;
+      }
+      .related-card {
+        background: linear-gradient(#ffffff, #fffdf6);
+        border: 1.5px solid var(--gold);
+        border-radius: var(--radius);
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      }
+      .rc-media {
+        background: #e2e8f0;
+      }
+      .rc-body {
+        padding: 12px;
+      }
+      .tag {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--accent);
+        background: #fff5f5;
+        border: 1px solid #ffdad9;
+        padding: 2px 8px;
+        border-radius: 999px;
+        margin-bottom: 6px;
+      }
+      .rc-title {
+        font-weight: 800;
+        line-height: 1.35;
+        margin: 0 0 6px;
+        font-size: 14px;
+      }
+      .rc-meta {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .btn-ghost {
+        border: 1px solid var(--gold);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 13px;
+        color: #8a6c00;
+        background: #fff;
+        transition: background 0.15s ease;
+      }
+      .btn-ghost:hover {
+        background: #fff1bf;
+      }
+
+      /* 반응형 */
+      @media (max-width: 1100px) {
+        .grid {
+          grid-template-columns: 220px 1fr 280px;
+        }
+      }
+      @media (max-width: 920px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .sidebar,
+        .related {
+          position: static;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 헤더 / 내비 -->
+    <header class="site-header">
+      <nav class="nav">
+        <div class="brand">조선의 소식</div>
+        <div class="nav-links">
+          <a href="#">Home</a>
+          <a href="#" class="is-active">People</a>
+          <a href="#">Video</a>
+          <a href="#">Pools</a>
+          <a href="#">Magazine</a>
+        </div>
+        <div class="spacer"></div>
+        <div class="search">
+          🔎 <input type="search" placeholder="검색어를 입력하세요" />
+        </div>
+      </nav>
+    </header>
+
+    <main class="wrap">
+      <div class="grid">
+        <!-- 좌측 카테고리 -->
+        <aside class="sidebar">
+          <div class="author">
+            <div class="avatar"></div>
+            <div>
+              <strong>편집부</strong><br />
+              <span style="color: var(--muted); font-size: 12px"
+                >조선의 소식</span
+              >
+            </div>
+          </div>
+          <div class="cat-title">Category</div>
+          <ul class="cat-list">
+            <li><a href="#" class="is-active">정치</a></li>
+            <li><a href="#">국가경제</a></li>
+            <li><a href="#">규정·지시</a></li>
+            <li><a href="#">과학·기술</a></li>
+            <li><a href="#">농업</a></li>
+            <li><a href="#">문화·체육</a></li>
+            <li><a href="#">국제</a></li>
+          </ul>
+        </aside>
+
+        <!-- 메인 기사 -->
+        <section class="main">
+          <h2 class="section-title">Politics</h2>
+
+          <article class="article">
+            <div class="hero-media">
+              <img
+                class="img"
+                src="자료이미지/ppt/Flag_of_North_Korea.svg.png"
+                alt="행사/회의 메인 이미지 자리표시"
+              />
+              <!-- 히든 시크릿 입구 -->
+              <a
+                class="secret-pin"
+                href="#codename-baekdusan"
+                title="CODE NAME : 백두산"
+              ></a>
+            </div>
+            <div class="article-body">
+              <span class="kicker">Congress</span>
+              <h1 class="headline">
+                위대하신 김정은 동지 령도따라! 새 승리의 봉화를 높이 들자
+              </h1>
+              <div class="byline">
+                <span>편집: 인민기자단</span>
+                <span>주체114(2025) 09:05</span>
+              </div>
+              <div class="meta">
+                <span>🕓 2.5m</span>
+                <span>💬 152</span>
+                <span>❤ 15k</span>
+                <button class="btn-ghost">보관</button>
+                <button class="btn-ghost">공유</button>
+              </div>
+              <p class="lead">
+                평양에서 진행된 대회에서는 인민경제계획의 장성 목표가
+                제시되였으며, 모든 부문에서 자력갱생의 기치를 더 높이 들 것을
+                호소하였다.
+              </p>
+              <div class="divider"></div>
+              <p class="para">
+                현지 일군들과 근로자들은 령도자의 현지지도를 받들어 생산의 모든
+                고리를 혁신적으로 개선하고, 과학기술중시의 원칙에서 선진기술
+                도입을 확대하기로 하였다.
+              </p>
+              <p class="para">
+                청년동맹과 녀맹조직을 비롯한 근로단체들에서는 사회주의 문명국
+                건설에로 대중을 불러일으키기 위한 선전선동 사업을 더욱 힘있게
+                벌리게 된다.
+              </p>
+              <p class="para">
+                ※ 본 지면은 학습·연구 목적의 프로토타입입니다. (히든 버튼 클릭
+                시 시크릿 페이지로 라우팅 예정)
+              </p>
+            </div>
+          </article>
+
+          <!-- 리스트형 기사 1 -->
+          <article class="article" style="padding: 16px">
+            <div
+              style="display: grid; gap: 16px; grid-template-columns: 160px 1fr"
+            >
+              <div>
+                <img
+                  class="img"
+                  src="자료이미지/ppt/Flag_of_North_Korea.svg.png"
+                  alt="대형 기념비 이미지"
+                />
+              </div>
+              <div>
+                <span class="kicker">Culture</span>
+                <h3
+                  class="headline"
+                  style="
+                    font-size: 22px;
+                    margin: 8px 0;
+                    color: var(--revolution);
+                    font-family: 'Eulyoo1945', serif;
+                  "
+                >
+                  평양 문화·체육 행사 성황리 진행
+                </h3>
+                <p class="para" style="margin-top: 6px">
+                  청년들과 근로자들이 밝고 랑만적인 분위기 속에 다양한 체육·예술
+                  활동을 전개하였다.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- 리스트형 기사 2 -->
+          <article class="article" style="padding: 16px">
+            <div
+              style="display: grid; gap: 16px; grid-template-columns: 160px 1fr"
+            >
+              <div>
+                <img
+                  class="img"
+                  src="자료이미지/ppt/Flag_of_North_Korea.svg.png"
+                  alt="농업/생산 이미지"
+                />
+              </div>
+              <div>
+                <span class="kicker">Agriculture</span>
+                <h3
+                  class="headline"
+                  style="
+                    font-size: 22px;
+                    margin: 8px 0;
+                    color: var(--revolution);
+                    font-family: 'Eulyoo1945', serif;
+                  "
+                >
+                  낟알 풍작… 선진 영농기술 도입 확대
+                </h3>
+                <p class="para" style="margin-top: 6px">
+                  과학기술중시의 기치 밑에 생산성 제고를 위한 기계화·자동화가
+                  힘있게 추진되고 있다.
+                </p>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <!-- 우측 관련 뉴스 -->
+        <aside class="related">
+          <div class="article" style="padding: 16px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <h3 class="section-title" style="font-size: 18px">
+                Related News
+              </h3>
+              <a href="#" style="color: var(--muted); font-size: 13px"
+                >모두 보기</a
+              >
+            </div>
+          </div>
+
+          <article class="related-card">
+            <div class="rc-media">
+              <img
+                class="img"
+                src="자료이미지/ppt/Flag_of_North_Korea.svg.png"
+                alt="회의 이미지"
+              />
+            </div>
+            <div class="rc-body">
+              <span class="tag">Impeachment</span>
+              <div class="rc-title">중요 회의 소식: 인민경제 성과 총화</div>
+              <div class="rc-meta">🕓 2.5m</div>
+            </div>
+          </article>
+
+          <article class="related-card">
+            <div class="rc-media">
+              <img
+                class="img"
+                src="자료이미지/ppt/Flag_of_North_Korea.svg.png"
+                alt="연설 이미지"
+              />
+            </div>
+            <div class="rc-body">
+              <span class="tag">Congress</span>
+              <div class="rc-title">사회주의 강국 건설에로! 령도 연설 요지</div>
+              <div class="rc-meta">🕓 3m</div>
+            </div>
+          </article>
+
+          <article class="related-card">
+            <div class="rc-media">
+              <img
+                class="img"
+                src="자료이미지/ppt/Flag_of_North_Korea.svg.png"
+                alt="군중 이미지"
+              />
+            </div>
+            <div class="rc-body">
+              <span class="tag">White House</span>
+              <div class="rc-title">인민의 단결 대행진 성황리 진행</div>
+              <div class="rc-meta">🕓 2m</div>
+            </div>
+          </article>
+        </aside>
+      </div>
+    </main>
+
+    <footer
+      style="
+        max-width: var(--max);
+        margin: 24px auto 40px;
+        padding: 0 16px;
+        color: var(--muted);
+        font-size: 13px;
+      "
+    >
+      ※ 본 페이지는 대학 과제용 프로토타입이며, 실제 서비스가 아닙니다.
+    </footer>
+
+    <!-- 라우팅 연결 예시
+  <script>
+    document.querySelectorAll('.secret-pin').forEach(btn=>{
+      btn.addEventListener('click', e=>{
+        e.preventDefault();
+        window.location.href='/codename-baekdusan';
+      });
+    });
+  </script>
+  --></body>
+</html>

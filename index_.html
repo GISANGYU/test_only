@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>혁명 선전 페이지</title>
+    <style>
+      :root {
+        --revolution: #9c0d0d; /* 강렬한 혁명·피·투쟁 */
+        --base: #f7f7f5; /* 본문 배경 */
+        --accent: #c89b00; /* 아이콘, 엠블럼, 구분선 */
+        --ink: #1a1a1a;
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Noto Sans KR', sans-serif;
+        background: var(--base);
+        color: var(--ink);
+      }
+
+      /* 메인 타이틀 (궁서류, 붉은색) */
+      .hero {
+        text-align: center;
+        padding: 80px 20px 40px;
+        border-bottom: 4px solid var(--accent);
+      }
+      .hero h1 {
+        font-family: 'Gungsuh', serif; /* 궁서체 */
+        font-size: clamp(28px, 5vw, 54px);
+        color: var(--revolution);
+        margin: 0;
+      }
+      .hero p {
+        margin-top: 12px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      /* 뉴스 카드 */
+      .news {
+        max-width: 1000px;
+        margin: 40px auto;
+        display: grid;
+        gap: 20px;
+        padding: 0 20px;
+      }
+      .card {
+        background: #fff;
+        border: 2px solid var(--accent);
+        border-radius: 12px;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 200px 1fr;
+      }
+      .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .card-body {
+        padding: 16px;
+      }
+      .card-body h2 {
+        font-family: 'Gungsuh', serif;
+        font-size: 22px;
+        color: var(--revolution);
+        margin: 0 0 8px;
+      }
+      .card-body p {
+        font-size: 15px;
+        line-height: 1.5;
+      }
+
+      /* 구분선 강조 */
+      .divider {
+        border-top: 3px solid var(--accent);
+        margin: 60px auto;
+        max-width: 300px;
+      }
+
+      /* 아이콘/엠블럼 버튼 */
+      .btn {
+        display: inline-block;
+        padding: 10px 18px;
+        border: 2px solid var(--accent);
+        border-radius: 6px;
+        font-weight: 700;
+        color: var(--accent);
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+      .btn:hover {
+        background: var(--accent);
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 메인 타이틀 -->
+    <section class="hero">
+      <h1>위대하신 김정은 동지 령도따라!</h1>
+      <p>강성대국 건설의 휘황한 미래로</p>
+    </section>
+
+    <!-- 뉴스 카드 -->
+    <section class="news">
+      <article class="card">
+        <img class="img" src="" alt="행사 이미지" />
+        <div class="card-body">
+          <h2>인민경제 성과 달성</h2>
+          <p>
+            평양에서 진행된 대회에서는 인민경제계획의 새로운 목표가
+            제시되었으며, 자력갱생의 기치 아래 모든 부문에서 혁신이 촉구되었다.
+          </p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="img" src="" alt="건축 이미지" />
+        <div class="card-body">
+          <h2>웅장한 기념비적 건축물</h2>
+          <p>
+            조선의 수도 평양에는 류경호텔, 만수대기념비와 같은 사회주의 문명의
+            상징들이 우뚝 솟아있다.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <!-- 구분선 -->
+    <div class="divider"></div>
+
+    <!-- 버튼 -->
+    <div style="text-align: center; margin-bottom: 60px">
+      <a href="#" class="btn">CODE NAME : 백두산</a>
+    </div>
+  </body>
+</html>
